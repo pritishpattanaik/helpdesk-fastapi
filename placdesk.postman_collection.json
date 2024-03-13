@@ -1,0 +1,95 @@
+{
+	"variables": [],
+	"info": {
+		"name": "placdesk",
+		"_postman_id": "207bcdda-c0c2-6f98-733d-2001281ee3c1",
+		"description": "APIS for placdesk\n\ncreate ticket\nupdate ticket \nremove ticket\nget ticket \n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Ping",
+			"request": {
+				"url": "{{url}}:{{port}}/plac",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Ping a the helpdesk"
+			},
+			"response": []
+		},
+		{
+			"name": "TotalTickets",
+			"request": {
+				"url": "{{url}}:{{port}}/ticketcount",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "total ticket count in helpdesk system"
+			},
+			"response": []
+		},
+		{
+			"name": "TicketGet",
+			"request": {
+				"url": "{{url}}:{{port}}/ticket/1/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTickets",
+			"request": {
+				"url": "{{url}}:{{port}}/ticket/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "TicketCreate",
+			"request": {
+				"url": "{{url}}:{{port}}/ticket/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\":\"my first ticket\",\n\t\"description\":\"issue with my VPN access\",\n\t\"status\":\"new\",\n\t\"agent\":\"plac.agent1\",\n\t\"customer\":\"plac.customer1\",\n\t\"agent_notes\":\"ticket created with new status\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "TicketUpdate",
+			"request": {
+				"url": "{{url}}:{{port}}/ticket/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"ID\": 1,\n\t\"title\":\"update first ticket with ID \",\n\t\"description\":\"issue with my VPN access\",\n\t\"status\":\"in-progress\",\n\t\"agent\":\"plac.agent1\",\n\t\"customer\":\"plac.customer1\",\n\t\"agent_notes\":\"ticket created with new status\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
