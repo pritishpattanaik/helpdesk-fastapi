@@ -1,0 +1,5 @@
+# build and start the server 
+docker-compose up -d --build                 
+
+# connect to PostgreSQL database
+docker-compose exec db psql --username=placdesk --dbname=placdesk
