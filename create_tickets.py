@@ -1,12 +1,12 @@
 import requests
 import json
 
-url = "http://127.0.0.1:5000/ticket"
+url = "http://127.0.0.1:7001/ticket"
 headers = {
     'content-type': "application/json",
 }
 
-start = 2
+start = 1
 end = 100
 while start <= end:
     ticketdata = {
