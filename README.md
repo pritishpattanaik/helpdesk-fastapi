@@ -39,11 +39,19 @@ To set up PlacDesk on your local machine:
    ```bash
    $ cd helpdesk-fastapi/
    ```
-4. Ensure Docker is running, then build and run Docker Compose to start the API server:
+4. Ensure Docker is running,then create network plac-net (for first time setup)
+   ```bash
+   $ docker network create plac-net
+   ```
+5. Then run below to make sure containers are down
+   ```bash
+   $ docker compose down
+   ```
+6. Then build and run Docker Compose to start the API server:
    ```bash
    $ docker compose up -d --build
    ```
-5. Verify containers are running successfully:
+7. Verify containers are running successfully:
    ```bash
    $ docker compose ps
    ```
