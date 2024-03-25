@@ -1,113 +1,110 @@
-# A simple helpdesk API system
-placdesk app is a basic CRUD application built on top of FastAPI. This can be extend to a fully operational help desk system
+# PlacDesk: A Simple Helpdesk API System
 
-## API server is written in FastAPI and backend database is in PostgreSQL. 
+PlacDesk is a basic CRUD application built on top of FastAPI, designed to be extended into a fully operational help desk system.
 
-## What is HelpDesk ? 
+## Technologies Used
 
-A help desk is the individual, group, organizational function or external service that an IT user calls to get help with a problem. A help desk can be as simple as a physical desk where a support person takes calls. It also can be a global organization that accepts support requests submitted online or in person from around the world. The help desk function is often outsourced to support specialists.
+- **FastAPI**: API server framework
+- **PostgreSQL**: Backend database
+- **Python3**: Programming language
+- **Docker**: Containerization
+- **Postman** and **Vue.js**: Used for testing and frontend development respectively
 
-## What is a Ticket tracking sytem 
+## Understanding HelpDesk
 
-A growing customer base is a sign of a growing business. But guess what happens when you have more and more customers?  Countless support issues, hundreds of request emails, and phones ringing non-stop in your customer service department. In the business world, customer problems are inevitable. There will always be customers who need your assistance while making a big purchase, or simply for resetting their account password. To rise above these challenges and stay ahead of the curve, a ticket management system can prove to be a real game-changer for your team. You can handle your current ticket load, scale your operations with ease, and monitor your progress at every step of the way.
+A help desk serves as the primary point of contact for IT users seeking assistance with technical issues. It can range from a physical desk manned by support personnel to a global organization handling support requests worldwide.
 
-![image](https://github.com/pritishpattanaik/helpdesk-fastapi/assets/18005824/e02a300a-1efc-4c69-a34f-4c7e122bf712)
+## Ticket Tracking System
 
+As businesses grow, so do customer support needs. A ticket management system centralizes support requests, streamlining issue resolution and allowing teams to scale operations efficiently. PlacDesk aims to address these challenges effectively.
 
+![Helpdesk](https://github.com/pritishpattanaik/helpdesk-fastapi/assets/18005824/e02a300a-1efc-4c69-a34f-4c7e122bf712)
 
+## Local Setup
 
+To set up PlacDesk on your local machine:
 
-> placdek used below technologies in this project: 
+1. Download and install [Postman](https://www.postman.com/downloads/) for API testing.
+2. Preferably use VS Code for development, or any other preferred code editor.
+3. Install Docker Desktop for [Windows and MacOS](https://www.docker.com/products/docker-desktop/).
+4. Ensure Python 3.8 is installed on your system.
 
-- Python3
-- Docker 
-- PostgreSQL 
-- Postman and Vue.js
+### Installation Steps
 
-## Set up your local laptop as server 
-  - download and install postman based on your OS https://www.postman.com/downloads/
-  - VS Code is prefered, you may install any other softwares 
-  - install docker desktop for Windows and MacOS https://www.docker.com/products/docker-desktop/
-  - Install Python 3.8 
+1. Clone this repository
+   ```bash
+    $ git clone https://github.com/pritishpattanaik/helpdesk-fastapi.git
+   ```
+3. Navigate to the cloned directory:
+   ```bash
+   $ cd helpdesk-fastapi/
+   ```
+4. Ensure Docker is running, then build and run Docker Compose to start the API server:
+   ```bash
+   $ docker compose up -d --build
+   ```
+5. Verify containers are running successfully:
+   ```bash
+   $ docker compose ps
+   ```
+   
+### Database Verification
 
-### Installation 
+To verify the database:
 
-> clone this report. 
+```bash
+$ docker compose exec db psql --username=placdesk --dbname=placdesk
+```
 
-> change directory 
-`$cd helpdeskapi` 
+### Endpoint Verification
 
-> make sure you have docker up and running on your local machine
-> build and run docker-compose, this will run your API server in backend and expose port 5000 on host machine
+Test PlacDesk endpoints using the following commands:
 
-`$docker compose up -d --build`
+- Ping test:
+  ```bash
+  $ curl -X GET http://127.0.0.1:7001/plac
+  ```
 
-> check your container nama and ports its exposed 
-`$docker-compose ps` 
+- Total tickets count:
+  ```bash
+  $ curl -X GET http://127.0.0.1:7001/ticketcount
+  ```
 
-> if it's successfullt, then you should see two containers are running helpdesk-api and db. 
+- Create a new ticket:
+  ```bash
+  $ curl --request POST 'http://127.0.0.1:7001/ticket/'  --data-raw '{"title":"my first ticket","description":"issue with my VPN access","status":"new","agent":"plac.agent1","customer":"plac.customer1","agent_notes":"ticket created with new status"}' -H "Content-Type:application/json"
+  ```
 
+- Get all tickets:
+  ```bash
+  $ curl -X GET http://127.0.0.1:7001/ticket/
+  ```
 
+- Get details of a single ticket by ID:
+  ```bash
+  $ curl -X GET http://127.0.0.1:7001/ticket/1/
+  ```
 
-### Verify database 
-`$docker-compose exec db psql --username=placdesk --dbname=placdesk`
+- Create bulk tickets using Python script:
+  Ensure you are in the project folder and have the `requests` module installed via pip:
+  ```bash
+  $ python3 create_tickets.py
+  ```
 
-
-### Verify placdesk end points 
-
-
-> ping test 
-`$curl -X GET http://127.0.0.1:7001/plac` 
-
-> total tickets count 
-`$curl -X GET http://127.0.0.1:7001/ticketcount`
-
-> create a new ticket 
-
- `curl --request POST 'http://127.0.0.1:7001/ticket/'  --data-raw '{"title":"my first ticket","description":"issue with my VPN access","status":"new","agent":"plac.agent1","customer":"plac.customer1","agent_notes":"ticket created with new status"}' -H "Content-Type:application/json"`
-
-> get all tickets
-
-`$curl -X GET http://127.0.0.1:7001/ticket/`
-
-> get single ticket details with ID 
-
-`$curl -X GET http://127.0.0.1:7001/ticket/1/`
-
-> create bulk of tickets using python request and loop 
-> you must be in project folder, install requests module using pip if it's missing 
-`python3 create_tickets.py`
- > this will create 1000 tickets in your helpdesk where you can play around with UPDATE/DELETE operation. 
-
-
-
-### import POSTMAN collection and use all available endpoint for CRUD operations. 
-
-set environment variable url and port based on your set up 
-by default url=127.0.0.1 and port=7001
-
-
-
-Note - this helpdesk demonstrate only for education purpose, you are welcome to clone and extend the code functionality.
-
-### Planning to develop below features for a fully operational helpdesk system 
-
-- new endpoints such StateUpdate, AgentUpdate, CustomerUpdate, Titleupdate and many more 
-- different type of ticket(incident, service request, change request and etc) 
-- group - where agents will be mapped. 
-- notification over email 
-- ticket history 
-- Frontend UI - already created in vue.js ( https://github.com/pritishpattanaik/aihelpdesk-vue ) 
+### Postman Collection
+go to http://127.0.0.1:7001/docs and download the swagger spec. Import it to postman. 
 
 
 
+**Note**: This helpdesk demonstration is for educational purposes only. Feel free to clone and extend its functionality.
 
+## Planned Features
 
+In the future, PlacDesk aims to incorporate the following features for a fully operational helpdesk system:
 
-
-
-
-
-
-
-
+- Additional endpoints such as StateUpdate, AgentUpdate, CustomerUpdate, TitleUpdate, and more.
+- Support for different types of tickets (incident, service request, change request, etc.).
+- Group functionality for mapping agents.
+- Email notifications.
+- Ticket history tracking.
+- Frontend UI already created in Vue.js ([GitHub Repo](https://github.com/pritishpattanaik/aihelpdesk-vue)).
