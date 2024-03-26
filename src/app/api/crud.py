@@ -2,13 +2,15 @@ from app.api.models import TicketSchema
 from app.db import ticket, database
 from sqlalchemy import func
 
-# tickets table 
+
 
 # SELECT * from tickets where ID = ?
 async def get(id: int):
     query = ticket.select().where(id == ticket.c.id)
     return await database.fetch_one(query=query)
 
+# this needs to be updated with ORM 
+# kindly avoid using direct SQL statement. 
 # SELECT count(id) from tickets
 async def t_count():
     query = "SELECT status, COUNT(id) AS total FROM tickets GROUP BY status"
