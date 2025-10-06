@@ -1,12 +1,18 @@
 from fastapi import FastAPI
 
 from app.api import ping, ticket, ticketcount
+from app.api import enhanced_tickets_full as enhanced_tickets
+from app.api import tags_simple as tags
 from app.db import engine, metadata, database
 from fastapi.middleware.cors import CORSMiddleware
 
 metadata.create_all(engine)
 
-app = FastAPI()
+app = FastAPI(
+    title="PlacDesk - Helpdesk API", 
+    description="A helpdesk API system with ticket management",
+    version="1.1.0"
+)
 
 
 @app.on_event("startup")
@@ -18,14 +24,20 @@ async def startup():
 async def shutdown():
     await database.disconnect()
 
-# /plac ping router to test the APP API 
-app.include_router(ping.router)
+# Health check endpoint
+app.include_router(ping.router, tags=["health"])
 
-#  /ticket router for CRUD operations 
-app.include_router(ticket.router, prefix="/ticket", tags=["ticket"])
+# Original ticket endpoints
+app.include_router(ticket.router, prefix="/ticket", tags=["tickets"])
 
-# / ticketcount router for all stats
-app.include_router(ticketcount.router)
+# Enhanced ticket endpoints (full-featured)
+app.include_router(enhanced_tickets.router, prefix="/tickets", tags=["tickets-enhanced"])
+
+# Tag management endpoints
+app.include_router(tags.router, prefix="/tags", tags=["tags"])
+
+# Statistics endpoint
+app.include_router(ticketcount.router, tags=["statistics"])
 
 #Allow IPs
 origins = [

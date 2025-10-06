@@ -1,7 +1,11 @@
 asyncpg
 databases[postgresql]
 fastapi
+python-multipart  # For file uploads
+aiofiles  # For async file handling
+pillow  # For image processing
 SQLAlchemy
+alembic
 uvicorn
 psycopg2-binary>=2.9.3
 python-dotenv

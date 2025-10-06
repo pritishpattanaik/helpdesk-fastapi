@@ -9,6 +9,9 @@ services:
       - type: bind
         source: ./src/
         target: /usr/src/app/
+      - type: volume
+        source: upload_files
+        target: /usr/src/app/uploads
     ports:
       - target: 8010
         published: 7001
@@ -16,6 +19,24 @@ services:
         mode: host
     environment:
       DATABASE_URL: postgresql://placdesk:placdesk@db:5432/placdesk
+    depends_on:
+      - db
+
+  # Database migration service
+  migrate:
+    container_name: placdesk-migrate
+    build: ./src
+    command: python docker-migrate.py
+    volumes:
+      - type: bind
+        source: ./src/
+        target: /usr/src/app/
+    environment:
+      DATABASE_URL: postgresql://placdesk:placdesk@db:5432/placdesk
+    depends_on:
+      - db
+    profiles:
+      - migration
 
   db:
     image: postgres:12.1-alpine
@@ -32,6 +53,7 @@ services:
 
 volumes:
   postgres_data:
+  upload_files:
 
 networks:
   default:
